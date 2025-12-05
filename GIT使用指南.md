@@ -61,22 +61,43 @@ git config --global user.email "您的GitHub邮箱"
 
 ## 第四步：推送到GitHub远程仓库
 
-提交到本地仓库后，需要将这些更改推送到GitHub：
+提交到本地仓库后，需要将这些更改推送到GitHub。首先需要配置GitHub远程仓库：
+
+### 1. 配置远程仓库（首次使用时）
+
+在GitHub上创建一个新仓库后，执行以下命令关联本地仓库和GitHub远程仓库：
+
+```bash
+# 替换为你的GitHub仓库URL
+git remote add origin https://github.com/你的用户名/你的仓库名.git
+```
+
+例如：
+```bash
+git remote add origin https://github.com/user/digital-transformation-project.git
+```
+
+### 2. 推送到远程仓库
 
 ```bash
 # 首次推送时使用（只需要执行一次）
-git push -u origin main
+git push -u origin master
 
 # 后续推送时可以简化为
-git push origin main
+git push origin master
 ```
+
+**注意**：如果遇到GitHub访问超时问题，可以：
+1. 先配置DNS（运行`change_dns.ps1`脚本）
+2. 再配置GitHub镜像（运行`config_github_mirror.ps1`脚本）
+3. 然后重试推送操作
 
 ## 第五步：从GitHub拉取最新更新
 
 当您需要获取GitHub仓库中的最新更改时：
 
 ```bash
-git pull origin main
+git pull origin master
 ```
 
 ## 常见问题解决
