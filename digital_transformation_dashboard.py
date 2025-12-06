@@ -49,7 +49,7 @@ if streamlit_available:
     st.write('根据1999-2023年数据，通过股票代码查询企业数字化转型指数及历年趋势')
 
 # 获取CSV文件路径
-file_path = 'c:/Users/ZhuanZ(无密码)/Desktop/szjjgl/1999-2023年数字化转型指数结果表.csv'
+file_path = '1999-2023年数字化转型指数结果表.csv'
 
 # 检查文件是否存在
 if os.path.exists(file_path):
