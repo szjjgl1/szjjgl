@@ -21,14 +21,23 @@ try:
     # 先设置matplotlib后端
     matplotlib.use('Agg')  # 使用Agg后端，更适合服务器环境
     import matplotlib.pyplot as plt
+    from matplotlib.font_manager import FontProperties
     
-    # 在Streamlit Cloud环境中显示中文的特殊配置
-    # 这种方法不依赖系统字体，而是使用matplotlib的内置渲染机制
+    # 在Streamlit Cloud环境中强制使用中文字体
     plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
-    plt.rcParams['svg.fonttype'] = 'path'  # 将文本渲染为路径，不依赖字体
+    plt.rcParams['svg.fonttype'] = 'none'  # SVG文本设置为可编辑
     plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
     plt.rcParams['font.size'] = 10  # 设置默认字体大小
     plt.rcParams['text.usetex'] = False  # 禁用LaTeX渲染
+    
+    # 关键：设置全局字体为支持中文的字体
+    # 在Streamlit Cloud中，我们使用一种特殊的方法来确保中文显示
+    plt.rcParams['font.family'] = ['WenQuanYi Micro Hei', 'SimHei', 'Arial Unicode MS', 'DejaVu Sans']
+    plt.rcParams['axes.titlesize'] = 14
+    plt.rcParams['axes.labelsize'] = 12
+    
+    # 创建一个FontProperties对象，用于显式设置字体
+    zh_font = FontProperties(family=['WenQuanYi Micro Hei', 'SimHei', 'Arial Unicode MS'])
     
     # 导入cmap工具，用于处理颜色映射
     from matplotlib import cm
@@ -220,10 +229,10 @@ if os.path.exists(file_path):
                                    ha='center',
                                    fontsize=8)
                 
-                # 设置图表属性
-                ax.set_title(f'{company_name} 数字化转型指数趋势 (1999-2023)', fontsize=14)
-                ax.set_xlabel('年份', fontsize=12)
-                ax.set_ylabel('数字化转型指数 (0-100分)', fontsize=12)
+                # 设置图表属性，显式应用中文字体
+                ax.set_title(f'{company_name} 数字化转型指数趋势 (1999-2023)', fontsize=14, fontproperties=zh_font)
+                ax.set_xlabel('年份', fontsize=12, fontproperties=zh_font)
+                ax.set_ylabel('数字化转型指数 (0-100分)', fontsize=12, fontproperties=zh_font)
                 ax.grid(True, linestyle='--', alpha=0.7)
                 ax.set_ylim(max(0, min(values) - 5), min(100, max(values) + 5))
                 
