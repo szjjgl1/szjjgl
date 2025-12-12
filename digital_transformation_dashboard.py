@@ -18,9 +18,14 @@ except ImportError:
 matplotlib_available = False
 try:
     import matplotlib.pyplot as plt
-    # 设置中文字体支持
-    plt.rcParams['font.sans-serif'] = ['SimHei', 'Arial Unicode MS', 'DejaVu Sans']
-    plt.rcParams['axes.unicode_minus'] = False
+    # 设置中文字体支持，添加更多通用字体选项
+   # 设置中文字体支持 - 使用更可靠的方法确保在各种环境下显示
+plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial Unicode MS', 'Microsoft YaHei', 'SimHei']
+plt.rcParams['axes.unicode_minus'] = False
+# 确保字体渲染正确
+plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
+plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
+plt.rcParams['font.size'] = 10  # 设置默认字体大小
     matplotlib_available = True
 except ImportError:
     matplotlib_available = False
@@ -34,8 +39,10 @@ except ImportError:
 
 # 设置中文字体支持
 if matplotlib_available:
-    plt.rcParams['font.sans-serif'] = ['SimHei', 'Arial Unicode MS', 'DejaVu Sans']
+    plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial Unicode MS', 'Microsoft YaHei', 'SimHei']
     plt.rcParams['axes.unicode_minus'] = False
+    plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
+    plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
 
 # 应用标题和简介
 if streamlit_available:
@@ -47,6 +54,7 @@ if streamlit_available:
 
     st.title('企业数字化转型指数查询系统')
     st.write('根据1999-2023年数据，通过股票代码查询企业数字化转型指数及历年趋势')
+    st.write('**作者：** lidianyi')
 
 # 获取CSV文件路径
 file_path = '1999-2023年数字化转型指数结果表.csv'
@@ -263,9 +271,12 @@ except ImportError:
 matplotlib_available = False
 try:
     import matplotlib.pyplot as plt
-    # 设置中文字体支持
-    plt.rcParams['font.sans-serif'] = ['SimHei', 'Arial Unicode MS', 'DejaVu Sans']
+    # 设置中文字体支持 - 使用更可靠的方法确保在各种环境下显示
+    plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial Unicode MS', 'Microsoft YaHei', 'SimHei']
     plt.rcParams['axes.unicode_minus'] = False
+    # 确保字体渲染正确
+    plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
+    plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
     matplotlib_available = True
 except ImportError:
     matplotlib_available = False
@@ -277,9 +288,12 @@ try:
 except ImportError:
     seaborn_available = False
 
-# 设置中文字体支持
-plt.rcParams['font.sans-serif'] = ['SimHei', 'Arial Unicode MS', 'DejaVu Sans']
+# 设置中文字体支持 - 使用更可靠的方法确保在各种环境下显示
+plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial Unicode MS', 'Microsoft YaHei', 'SimHei']
 plt.rcParams['axes.unicode_minus'] = False
+# 确保字体渲染正确
+plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
+plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
 
 # 定义依赖安装函数
 def install_dependencies():
@@ -428,7 +442,8 @@ def run_without_streamlit():
                     plt.tight_layout()
                     
                     chart_file = f"关键词趋势图_{timestamp}.png"
-                    plt.savefig(chart_file)
+                    # 使用高质量参数保存图表，确保中文显示正常
+                    plt.savefig(chart_file, dpi=300, bbox_inches='tight', format='png')
                     print(f"图表已保存至: {chart_file}")
     
     except Exception as e:
@@ -449,12 +464,7 @@ if not streamlit_available:
     # 退出程序
     sys.exit(0)
 
-# 应用标题和简介
-st.set_page_config(
-    page_title="年报数字化转型指数分析平台",
-    page_icon="📊",
-    layout="wide"
-)
+# 应用标题和简介（已在上方设置）
 
 st.title("📊 年报数字化转型指数分析平台")
 st.markdown("""
