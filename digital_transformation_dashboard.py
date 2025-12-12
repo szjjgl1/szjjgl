@@ -17,15 +17,24 @@ except ImportError:
 # 尝试导入可视化库
 matplotlib_available = False
 try:
+    import matplotlib
+    # 先设置matplotlib后端
+    matplotlib.use('Agg')  # 使用Agg后端，更适合服务器环境
     import matplotlib.pyplot as plt
-    # 设置中文字体支持，添加更多通用字体选项
-    # 设置中文字体支持 - 使用更可靠的方法确保在各种环境下显示
-    plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial Unicode MS', 'Microsoft YaHei', 'SimHei']
-    plt.rcParams['axes.unicode_minus'] = False
-    # 确保字体渲染正确
-    plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
+    
+    # 最可靠的配置：不指定具体中文字体，让matplotlib使用内部机制处理
+    plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
+    plt.rcParams['svg.fonttype'] = 'path'  # 使用路径而不是字体
     plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
     plt.rcParams['font.size'] = 10  # 设置默认字体大小
+    
+    # 关键设置：使用matplotlib的内置字体处理机制
+    plt.rcParams['text.usetex'] = False  # 禁用LaTeX渲染
+    plt.rcParams['font.family'] = 'DejaVu Sans'  # 使用DejaVu Sans字体
+    
+    # 导入cmap工具，用于处理颜色映射
+    from matplotlib import cm
+    
     matplotlib_available = True
 except ImportError:
     matplotlib_available = False
@@ -56,6 +65,17 @@ if streamlit_available:
         page_icon="📊",
         layout="wide"
     )
+    
+    # 注入CSS加载在线中文字体（Google Fonts）
+    st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
+    
+    body {
+        font-family: 'Noto Sans SC', sans-serif;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
     st.title('企业数字化转型指数查询系统')
     st.write('根据1999-2023年数据，通过股票代码查询企业数字化转型指数及历年趋势')
@@ -181,10 +201,6 @@ if os.path.exists(file_path):
                 
                 # 创建图表
                 fig, ax = plt.subplots(figsize=(12, 6))
-                
-                # 显式设置字体，确保中文显示正常
-                font = {'family': 'SimHei', 'size': 10}
-                plt.rc('font', **font)
                 
                 # 绘制折线图
                 ax.plot(company_data['年份'], company_data['数字化转型指数(0-100分)'], 
