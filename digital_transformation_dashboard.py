@@ -22,15 +22,13 @@ try:
     matplotlib.use('Agg')  # 使用Agg后端，更适合服务器环境
     import matplotlib.pyplot as plt
     
-    # 最可靠的配置：不指定具体中文字体，让matplotlib使用内部机制处理
+    # 在Streamlit Cloud环境中显示中文的特殊配置
+    # 这种方法不依赖系统字体，而是使用matplotlib的内置渲染机制
     plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
-    plt.rcParams['svg.fonttype'] = 'path'  # 使用路径而不是字体
+    plt.rcParams['svg.fonttype'] = 'path'  # 将文本渲染为路径，不依赖字体
     plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
     plt.rcParams['font.size'] = 10  # 设置默认字体大小
-    
-    # 关键设置：使用matplotlib的内置字体处理机制
     plt.rcParams['text.usetex'] = False  # 禁用LaTeX渲染
-    plt.rcParams['font.family'] = 'DejaVu Sans'  # 使用DejaVu Sans字体
     
     # 导入cmap工具，用于处理颜色映射
     from matplotlib import cm
