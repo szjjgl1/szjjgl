@@ -39,10 +39,15 @@ except ImportError:
 
 # 设置中文字体支持
 if matplotlib_available:
-    plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial Unicode MS', 'Microsoft YaHei', 'SimHei']
+    # 尝试多种中文字体，确保在不同环境下都能正常显示
+    plt.rcParams['font.family'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS', 'DejaVu Sans', 
+                                  'WenQuanYi Micro Hei', 'Heiti TC', 'NSimSun', 'SimSun']
     plt.rcParams['axes.unicode_minus'] = False
     plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
     plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
+    plt.rcParams['font.size'] = 10  # 设置默认字体大小
+    plt.rcParams['axes.titlesize'] = 12  # 设置标题字体大小
+    plt.rcParams['axes.labelsize'] = 11  # 设置坐标轴标签字体大小
 
 # 应用标题和简介
 if streamlit_available:
@@ -176,6 +181,10 @@ if os.path.exists(file_path):
                 
                 # 创建图表
                 fig, ax = plt.subplots(figsize=(12, 6))
+                
+                # 显式设置字体，确保中文显示正常
+                font = {'family': 'SimHei', 'size': 10}
+                plt.rc('font', **font)
                 
                 # 绘制折线图
                 ax.plot(company_data['年份'], company_data['数字化转型指数(0-100分)'], 
