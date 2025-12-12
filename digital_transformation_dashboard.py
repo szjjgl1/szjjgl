@@ -251,50 +251,6 @@ st.markdown("""
 3. 查看历年数字化转型指数趋势图
 4. 可选择查看完整数据表格
 """)
-# 先导入基础库
-import pandas as pd
-import numpy as np
-import os
-import sys
-import subprocess
-from datetime import datetime
-
-# 尝试导入streamlit
-streamlit_available = False
-try:
-    import streamlit as st
-    streamlit_available = True
-except ImportError:
-    streamlit_available = False
-
-# 尝试导入可视化库
-matplotlib_available = False
-try:
-    import matplotlib.pyplot as plt
-    # 设置中文字体支持 - 使用更可靠的方法确保在各种环境下显示
-    plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial Unicode MS', 'Microsoft YaHei', 'SimHei']
-    plt.rcParams['axes.unicode_minus'] = False
-    # 确保字体渲染正确
-    plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
-    plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
-    matplotlib_available = True
-except ImportError:
-    matplotlib_available = False
-
-seaborn_available = False
-try:
-    import seaborn as sns
-    seaborn_available = True
-except ImportError:
-    seaborn_available = False
-
-# 设置中文字体支持 - 使用更可靠的方法确保在各种环境下显示
-plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial Unicode MS', 'Microsoft YaHei', 'SimHei']
-plt.rcParams['axes.unicode_minus'] = False
-# 确保字体渲染正确
-plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
-plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
-
 # 定义依赖安装函数
 def install_dependencies():
     """安装必要的依赖库，使用多种方法尝试安装"""
