@@ -19,13 +19,13 @@ matplotlib_available = False
 try:
     import matplotlib.pyplot as plt
     # 设置中文字体支持，添加更多通用字体选项
-   # 设置中文字体支持 - 使用更可靠的方法确保在各种环境下显示
-plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial Unicode MS', 'Microsoft YaHei', 'SimHei']
-plt.rcParams['axes.unicode_minus'] = False
-# 确保字体渲染正确
-plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
-plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
-plt.rcParams['font.size'] = 10  # 设置默认字体大小
+    # 设置中文字体支持 - 使用更可靠的方法确保在各种环境下显示
+    plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial Unicode MS', 'Microsoft YaHei', 'SimHei']
+    plt.rcParams['axes.unicode_minus'] = False
+    # 确保字体渲染正确
+    plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
+    plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
+    plt.rcParams['font.size'] = 10  # 设置默认字体大小
     matplotlib_available = True
 except ImportError:
     matplotlib_available = False
