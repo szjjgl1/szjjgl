@@ -103,8 +103,14 @@ if os.path.exists(file_path):
         df['股票代码'] = df['股票代码'].astype(str)
         # 去除可能的前导/尾随空格
         df['股票代码'] = df['股票代码'].str.strip()
-        # 创建映射字典
-        stock_company_map = dict(zip(df['股票代码'], df['企业名称']))
+        
+        # 创建唯一的股票代码-企业名称映射（取每个股票代码的第一个企业名称）
+        stock_company_map = {}
+        for idx, row in df.iterrows():
+            stock_code = row['股票代码']
+            if stock_code not in stock_company_map:
+                stock_company_map[stock_code] = row['企业名称']
+        
         unique_stocks = list(stock_company_map.keys())
         unique_stocks.sort()  # 排序以便更好地浏览
         
@@ -123,20 +129,39 @@ if os.path.exists(file_path):
                 # 去除输入的空格
                 stock_input = stock_input.strip()
                 
+                # 标准化股票代码格式（补零到6位）
+                try:
+                    # 尝试转换为整数再格式化为6位字符串
+                    stock_input = f"{int(stock_input):06d}"
+                except ValueError:
+                    # 如果不是数字，保持原样
+                    pass
+                
                 # 首先直接查找
                 if stock_input in stock_company_map:
                     selected_stock = stock_input
                     st.sidebar.success(f"找到企业：{stock_company_map[stock_input]}")
                 else:
-                    # 尝试不同格式的匹配，比如补零或去除零
+                    # 尝试不同格式的匹配
                     found = False
-                    # 尝试在所有股票代码中查找包含关系
+                    
+                    # 1. 尝试部分匹配
                     for code in stock_company_map.keys():
-                        if stock_input == code or stock_input in code or code in stock_input:
+                        if stock_input in code or code in stock_input:
                             selected_stock = code
                             st.sidebar.success(f"找到匹配企业：{stock_company_map[code]} (股票代码：{code})")
                             found = True
                             break
+                    
+                    # 2. 尝试去除可能的前缀（如SZ、SH）
+                    if not found:
+                        if len(stock_input) > 6:
+                            # 尝试只取后6位
+                            suffix = stock_input[-6:]
+                            if suffix in stock_company_map:
+                                selected_stock = suffix
+                                st.sidebar.success(f"找到企业：{stock_company_map[suffix]}")
+                                found = True
                     
                     if not found:
                         st.sidebar.error(f"未找到股票代码：{stock_input}")
@@ -191,8 +216,6 @@ if os.path.exists(file_path):
                 with col2:
                     st.metric("云计算词频数", year_data['云计算词频数'])
                     st.metric("区块链词频数", year_data['区块链词频数'])
-                    st.metric("数字技术运用词频数", year_data['数字技术运用词频数'])
-                    st.metric("总词频数", year_data['总词频数'])
                 
                 # 绘制历年数字化转型指数折线图
                 if matplotlib_available:
@@ -219,7 +242,7 @@ if os.path.exists(file_path):
                     st.subheader('数字技术维度分析')
                     
                     # 提取数字技术相关指标
-                    tech_columns = ['人工智能词频数', '大数据词频数', '云计算词频数', '区块链词频数', '数字技术运用词频数']
+                    tech_columns = ['人工智能词频数', '大数据词频数', '云计算词频数', '区块链词频数']
                     tech_data = year_data[tech_columns].tolist()
                     
                     # 计算角度
