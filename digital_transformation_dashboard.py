@@ -81,7 +81,6 @@ if streamlit_available:
 
     st.title('企业数字化转型指数查询系统')
     st.write('根据1999-2023年数据，通过股票代码查询企业数字化转型指数及历年趋势')
-    st.write('**作者：** lidianyi')
 
 # 获取CSV文件路径
 file_path = '1999-2023年数字化转型指数结果表.csv'
