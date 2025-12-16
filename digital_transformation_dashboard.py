@@ -890,4 +890,14 @@ else:
     - 基本依赖: streamlit, pandas, numpy
     - 可选依赖 (用于可视化): matplotlib, seaborn
     - 可选依赖 (用于Excel支持): openpyxl
-    """)
+    "")
+
+# 定义main函数，确保Streamlit Cloud能正确导入和运行
+if __name__ == "__main__":
+    # 这个函数确保应用能作为脚本直接运行
+    pass
+
+# 添加main函数定义，确保Streamlit Cloud能正确导入
+def main():
+    # 应用代码已经在文件中直接执行，这里不需要额外的代码
+    pass
