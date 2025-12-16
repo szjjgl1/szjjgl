@@ -296,3 +296,13 @@ if streamlit_available:
     st.markdown("**数据来源**：1999-2023年企业年报")
     st.markdown("**数据更新时间**：2023年12月")
     st.markdown("**系统说明**：本系统基于企业年报文本分析构建数字化转型指数", unsafe_allow_html=True)
+
+# 定义main函数，确保Streamlit Cloud能正确导入和运行
+if __name__ == "__main__":
+    # 这个函数确保应用能作为脚本直接运行
+    pass
+
+# 添加main函数定义，确保Streamlit Cloud能正确导入
+def main():
+    # 应用代码已经在文件中直接执行，这里不需要额外的代码
+    pass
