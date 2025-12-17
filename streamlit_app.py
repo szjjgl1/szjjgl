@@ -1,4 +1,4 @@
-# 直接复制digital_transformation_dashboard.py的内容到streamlit_app.py
+# 企业数字化转型指数查询系统
 
 # 先导入基础库
 import pandas as pd
@@ -47,12 +47,9 @@ except ImportError:
 
 # 设置中文字体支持
 if matplotlib_available:
-    # 尝试多种中文字体，确保在不同环境下都能正常显示
-    plt.rcParams['font.family'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS', 'DejaVu Sans', 
-                                  'WenQuanYi Micro Hei', 'Heiti TC', 'NSimSun', 'SimSun']
-    plt.rcParams['axes.unicode_minus'] = False
-    plt.rcParams['svg.fonttype'] = 'none'  # 解决SVG中文字体问题
-    plt.rcParams['pdf.fonttype'] = 42  # 解决PDF中文字体问题
+    # 使用更兼容的字体设置，避免依赖系统中文字体
+    plt.rcParams['font.family'] = ['DejaVu Sans', 'Arial', 'sans-serif']  # 优先使用系统可用的无衬线字体
+    plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
     plt.rcParams['font.size'] = 10  # 设置默认字体大小
     plt.rcParams['axes.titlesize'] = 12  # 设置标题字体大小
     plt.rcParams['axes.labelsize'] = 11  # 设置坐标轴标签字体大小
@@ -78,6 +75,7 @@ if streamlit_available:
 
     st.title('企业数字化转型指数查询系统')
     st.write('根据1999-2023年数据，通过股票代码查询企业数字化转型指数及历年趋势')
+    st.write('**版本：2024.01.15 更新**')
 
 # 获取CSV文件路径
 file_path = '1999-2023年数字化转型指数结果表.csv'
