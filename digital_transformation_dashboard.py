@@ -2,11 +2,32 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
 
-# 设置matplotlib支持中文
-plt.rcParams['font.sans-serif'] = ['SimHei', 'WenQuanYi Micro Hei', 'Heiti TC', 'Microsoft YaHei', 'DejaVu Sans', 'Arial Unicode MS', 'Arial']  # 添加更多字体备选
-plt.rcParams['font.family'] = 'sans-serif'  # 确保使用无衬线字体
-plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
+# 配置matplotlib以确保中文显示
+matplotlib.rcParams.update({
+    'font.family': 'sans-serif',
+    'font.size': 12,
+    'axes.unicode_minus': False,
+    'svg.fonttype': 'path',  # 使用路径渲染文本，不依赖系统字体
+    'pdf.fonttype': 42,       # 确保PDF导出时字体正确
+})
+
+# 尝试多种字体配置
+for font_config in [
+    ['SimHei', 'WenQuanYi Micro Hei', 'DejaVu Sans'],
+    ['Heiti TC', 'Microsoft YaHei', 'Arial Unicode MS'],
+    ['Arial', 'sans-serif'],
+]:
+    try:
+        plt.rcParams['font.sans-serif'] = font_config
+        # 测试字体是否可用
+        plt.figure()
+        plt.text(0.5, 0.5, '测试中文显示', ha='center')
+        plt.close()
+        break  # 如果成功则退出循环
+    except:
+        continue  # 如果失败则尝试下一组字体
 
 # 设置页面配置
 st.set_page_config(
