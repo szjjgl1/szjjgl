@@ -4,7 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 设置matplotlib支持中文
-plt.rcParams['font.sans-serif'] = ['SimHei', 'DejaVu Sans']  # 设置中文字体
+plt.rcParams['font.sans-serif'] = ['SimHei', 'WenQuanYi Micro Hei', 'Heiti TC', 'Microsoft YaHei', 'DejaVu Sans', 'Arial Unicode MS', 'Arial']  # 添加更多字体备选
+plt.rcParams['font.family'] = 'sans-serif'  # 确保使用无衬线字体
 plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
 
 # 设置页面配置
