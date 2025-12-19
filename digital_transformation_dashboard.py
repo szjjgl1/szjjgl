@@ -1,6 +1,11 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
+# 设置matplotlib支持中文
+plt.rcParams['font.sans-serif'] = ['SimHei', 'DejaVu Sans']  # 设置中文字体
+plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
 
 # 设置页面配置
 st.set_page_config(
@@ -87,8 +92,32 @@ if stock_code and df_data is not None:
         st.markdown("\n### 数字化转型指数趋势")
         # 按年份排序
         company_data_sorted = company_data.sort_values('年份')
-        # 绘制趋势图
-        st.line_chart(company_data_sorted.set_index('年份')[['数字化转型指数(0-100分)']])
+        
+        # 使用matplotlib创建折线图
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.plot(company_data_sorted['年份'], company_data_sorted['数字化转型指数(0-100分)'], linewidth=2, marker='o', color='blue')
+        
+        # 设置图表标题和轴标签
+        ax.set_title(f'{company_name} 数字化转型指数趋势', fontsize=14, fontweight='bold')
+        ax.set_xlabel('年份', fontsize=12)
+        ax.set_ylabel('数字化转型指数(0-100分)', fontsize=12)
+        
+        # 设置网格线
+        ax.grid(True, linestyle='--', alpha=0.7)
+        
+        # 设置x轴刻度间隔
+        years = company_data_sorted['年份'].unique()
+        if len(years) > 10:
+            ax.set_xticks(years[::2])  # 每隔一年显示一个刻度
+        else:
+            ax.set_xticks(years)
+        
+        # 旋转x轴标签以避免重叠
+        plt.xticks(rotation=45)
+        
+        # 显示图表
+        st.pyplot(fig)
+        plt.close(fig)
         
         # 显示统计信息
         st.markdown("\n### 统计信息")
